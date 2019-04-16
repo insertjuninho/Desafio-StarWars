@@ -98,7 +98,8 @@ public class StrDAO {
         
     }
 
-   public List<Atributo> readforId(String planeta){
+   
+    public List<Atributo> readforPlaneta(String planeta){
         
         Connection con = conexao.getConnection();
         PreparedStatement stmt = null;
@@ -107,9 +108,10 @@ public class StrDAO {
         List<Atributo> atributo = new ArrayList<>();
         
         try {
-            stmt = con.prepareStatement("SELECT * FROM starwars WHERE planeta LIKE %planeta%");
-            rs = stmt.executeQuery();
+            stmt = con.prepareStatement("SELECT * FROM starwars WHERE planeta LIKE ?");
+            stmt.setString(1,"%"+planeta+"%");
             
+            rs   = stmt.executeQuery();
         
             while(rs.next()){
                 
@@ -131,6 +133,39 @@ public class StrDAO {
         return atributo;
         
     }
-    
+    public List<Atributo> readforId(int id){
+        
+        Connection con = conexao.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        List<Atributo> atributo = new ArrayList<>();
+        
+        try {
+            stmt = con.prepareStatement("SELECT * FROM starwars WHERE  id = ?");
+            stmt.setInt(1,id);
+            
+            rs   = stmt.executeQuery();
+        
+            while(rs.next()){
+                
+                Atributo a = new Atributo();
+                
+                a.setId(rs.getInt("id"));
+                a.setPlaneta(rs.getString("planeta"));
+                a.setClima(rs.getString("clima"));
+                a.setTerreno(rs.getString("terreno"));
+                atributo.add(a);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(StrDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+        conexao.CloseConection(con, stmt, rs);
+     }
+        
+        return atributo;
+        
+    }
 
 }

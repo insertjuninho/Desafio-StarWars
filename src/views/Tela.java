@@ -35,12 +35,12 @@ public class Tela extends javax.swing.JFrame {
         }
         
     }
- public void readTelaforId(String planeta){
+ public void readTelaforPlaneta(String planeta){
         DefaultTableModel modelo = (DefaultTableModel) jTprod.getModel();
         modelo.setNumRows(0);
         StrDAO sdao = new StrDAO();
         
-        for(Atributo a: sdao.readforId(planeta)){
+        for(Atributo a: sdao.readforPlaneta(planeta)){
             
             modelo.addRow(new Object[]{
                 a.getId(),
@@ -50,10 +50,23 @@ public class Tela extends javax.swing.JFrame {
             });
         }
         }
-    
+        public void readTelaforId(int id){
+        DefaultTableModel modelo = (DefaultTableModel) jTprod.getModel();
+        modelo.setNumRows(0);
+        StrDAO sdao = new StrDAO();
         
-    
-
+        for(Atributo a: sdao.readforId(id)){
+            
+            modelo.addRow(new Object[]{
+                a.getId(),
+                a.getPlaneta(),
+                a.getClima(),
+                a.getTerreno()
+            });
+        }
+ }
+       
+       
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -233,8 +246,11 @@ public class Tela extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
-     readTelaforId(txtBusc.getText());
+
+        readTelaforPlaneta(txtBusc.getText());
+    
+    
+     
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
